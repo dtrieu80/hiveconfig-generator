@@ -1,0 +1,47 @@
+apiVersion: fleetmgmt.verse.dyt/v1alpha1
+kind: AzureHiveConfig
+metadata:
+  name: azure-mc1
+  annotations:
+    config.kubernetes.io/function: |
+      container:
+        image: example.docker.com/my-functions/hive-config-generator:1.0.0
+cluster:
+  baseDomain: k8s.example.com
+  ocpVersion: 4.12.35
+  networking:
+    clusterNetwork: 1.1.1.1
+    hostPrefix: 21
+    machineNetwork: 2.2.2.2
+    serviceNetwork: 3.3.3.3
+  clusterPowerState: Running
+  acmClusterSetName: alphacorp
+  acmClusterLabels:
+    versedt.dev/acm-enabled: true
+    versedt.dev/environment: lab
+  sshPubkey: 'ssh-rsa AAAABBBBCCCCDDDD'
+provider:
+  azure:
+    resourceGroup: example-rg
+    region: eastus
+    controlNodes:
+      replicas: 3
+      size: Standard_D4s_v3
+      osDiskSizeGB: 128
+    computeNodes:
+      - id: 0
+        replicas: 2
+        size: Standard_D2s_v3
+        osDiskSizeGB: 128
+        zones:
+        - "1"
+        - "2"
+        - "3"
+      - id: 1
+        replicas: 4
+        size: Standard_D2s_v3
+        osDiskSizeGB: 64
+        zones:
+        - "4"
+        - "5"
+        - "6"

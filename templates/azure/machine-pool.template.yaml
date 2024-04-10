@@ -1,0 +1,33 @@
+{{- $clustername := .Metadata.Name }}
+{{- range $addCompute := .Provider.Azure.ComputeNodes }}
+---
+apiVersion: hive.openshift.io/v1
+kind: MachinePool
+metadata:
+  {{- if eq $addCompute.Id 0 }}
+  name: {{ $clustername }}-worker
+  {{- else }}
+  name: {{ $clustername }}-worker-{{ $addCompute.Id }}
+  {{- end }}
+  namespace: {{ $clustername }}
+  annotations:
+    argocd.argoproj.io/sync-options: Prune=true
+spec:
+  clusterDeploymentRef:
+    name: {{ $clustername }}
+  {{- if eq $addCompute.Id 0 }}
+  name: worker
+  {{- else }}
+  name: worker-{{ $addCompute.Id }}
+  {{- end }}
+  platform:
+    azure:
+      osDisk:
+        diskSizeGB: {{ $addCompute.OsDiskSizeGB }}
+      type: {{ $addCompute.Size }}
+      zones:
+      {{- range $addCompute.Zones }}
+      - '{{ . }}'
+      {{- end }}
+  replicas: {{ $addCompute.Replicas }}
+{{- end }}
