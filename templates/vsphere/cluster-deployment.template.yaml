@@ -1,0 +1,38 @@
+apiVersion: hive.openshift.io/v1
+kind: ClusterDeployment
+metadata:
+  name: {{ .Metadata.Name }}
+  namespace: {{ .Metadata.Name }}
+  labels:
+    cloud: 'vSphere'
+    vendor: OpenShift
+  annotations:
+    argocd.argoproj.io/sync-options: Delete=true
+spec:
+  powerState: {{ .Cluster.ClusterPowerState }}
+  baseDomain: {{ .Cluster.BaseDomain }}
+  clusterName: {{ .Metadata.Name }}
+  controlPlaneConfig:
+    servingCertificates: {}
+  installAttemptsLimit: 1
+  platform:
+    vsphere:
+      vCenter: {{ .Provider.Vsphere.Vcenter }}
+      datacenter: {{ .Provider.Vsphere.Datacenter }}
+      cluster: {{ .Provider.Vsphere.Cluster }}
+      network: {{ .Provider.Vsphere.Network }}
+      defaultDatastore: {{ .Provider.Vsphere.DefaultDatastore }}
+      folder: {{ .Provider.Vsphere.Folder }}
+      certificatesSecretRef:
+        name: {{ .Metadata.Name }}-vsphere-certs
+      credentialsSecretRef:
+        name: {{ .Metadata.Name }}-vsphere-creds
+  provisioning:
+    installConfigSecretRef:
+      name: {{ .Metadata.Name }}-install-config
+    sshPrivateKeySecretRef:
+      name: {{ .Metadata.Name }}-ssh-private-key
+    imageSetRef:
+      name: img{{ .Cluster.OcpVersion }}-multi-appsub
+  pullSecretRef:
+    name: {{ .Metadata.Name }}-pull-secret

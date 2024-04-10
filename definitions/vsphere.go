@@ -1,6 +1,8 @@
 package definitions
 
 import (
+	"sigs.k8s.io/kustomize/kyaml/fn/framework"
+	"sigs.k8s.io/kustomize/kyaml/fn/framework/parser"
 	"sigs.k8s.io/kustomize/kyaml/yaml"
 )
 
@@ -15,11 +17,19 @@ type VsphereProvider struct {
 }
 
 type Vsphere struct {
-	ApiVIP            string             `yaml:"apiVIP" json:"apiVIP"`
-	IngressVIP        string             `yaml:"ingressVIP" json:"ingressVIP"`
-	ControlNodes      VirtControlNodes   `yaml:"controlNodes" json:"controlNodes"`
-	ComputeNodes      []VirtComputeNodes `yaml:"computeNodes" json:"computeNodes"`
-	ProviderSecretRef string             `yaml:"providerSecretRef" json:"providerSecretRef"`
+	Vcenter          string             `yaml:"vcenter" json:"vcenter"`
+	Username         string             `yaml:"username" json:"username"`
+	Password         string             `yaml:"password" json:"password"`
+	Datacenter       string             `yaml:"datacenter" json:"datacenter"`
+	Cluster          string             `yaml:"cluster" json:"cluster"`
+	Network          string             `yaml:"network" json:"network"`
+	DefaultDatastore string             `yaml:"defaultDatastore" json:"defaultDatastore"`
+	Folder           string             `yaml:"folder" json:"folder"`
+	ApiVIP           string             `yaml:"apiVIP" json:"apiVIP"`
+	IngressVIP       string             `yaml:"ingressVIP" json:"ingressVIP"`
+	ControlNodes     VirtControlNodes   `yaml:"controlNodes" json:"controlNodes"`
+	ComputeNodes     []VirtComputeNodes `yaml:"computeNodes" json:"computeNodes"`
+	//ProviderSecretRef string             `yaml:"providerSecretRef" json:"providerSecretRef"`
 }
 
 type VirtControlNodes struct {
@@ -52,5 +62,11 @@ func (config VsphereHiveConfig) Validate() error {
 
 func (config VsphereHiveConfig) Filter(items []*yaml.RNode) ([]*yaml.RNode, error) {
 	// println("VsphereHiveConfig.Filter 1")
-	return items, nil
+	filter := framework.TemplateProcessor{
+		ResourceTemplates: []framework.ResourceTemplate{{
+			TemplateData: &config,
+			Templates:    parser.TemplateFiles("templates/vsphere"),
+		}},
+	}
+	return filter.Filter(items)
 }

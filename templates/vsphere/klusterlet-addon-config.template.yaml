@@ -1,0 +1,23 @@
+apiVersion: agent.open-cluster-management.io/v1
+kind: KlusterletAddonConfig
+metadata:
+  name: {{ .Metadata.Name }}
+  namespace: {{ .Metadata.Name }}
+  annotations:
+    argocd.argoproj.io/sync-options: Delete=false
+spec:
+  clusterName: {{ .Metadata.Name }}
+  clusterNamespace: {{ .Metadata.Name }}
+  clusterLabels:
+    cloud: vSphere
+    vendor: OpenShift
+  applicationManager:
+    enabled: true
+  policyController:
+    enabled: true
+  searchCollector:
+    enabled: true
+  certPolicyController:
+    enabled: true
+  iamPolicyController:
+    enabled: true

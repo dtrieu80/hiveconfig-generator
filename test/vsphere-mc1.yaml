@@ -10,10 +10,11 @@ cluster:
   baseDomain: k8s.example.com
   ocpVersion: 4.12.35
   networking:
-    clusterNetwork:
-    hostPrefix:
-    machineNetwork:
-    serviceNetwork:
+    type: OVNKubernetes
+    clusterNetwork: 10.128.0.0/14
+    hostPrefix: 23
+    machineNetwork: 10.0.0.0/16
+    serviceNetwork: 172.30.0.0/16
   clusterPowerState: Running
   acmClusterSetName: alphacorp
   acmClusterLabels:
@@ -22,6 +23,14 @@ cluster:
   sshPubkey: 'ssh-rsa AAAABBBBCCCCDDDD'
 provider:
   vsphere:
+    vcenter: portal.vc.acme.com
+    username: wimpy
+    password: kid
+    datacenter: dc1
+    cluster: mycluster
+    network: management-net
+    defaultDatastore: mysan
+    folder: personalvms
     apiVIP: 192.168.33.201
     ingressVIP: 192.168.33.202
     controlNodes:
@@ -53,11 +62,5 @@ provider:
         - "nyc-2"
     providerSecretRef: mysecret
       # providerSecretRef.data:
-      #   vCenter
       #   username
       #   password
-      #   cluster
-      #   datacenter
-      #   datastore
-      #   folder
-      #   network
