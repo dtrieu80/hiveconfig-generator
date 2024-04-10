@@ -15,6 +15,7 @@ type Cluster struct {
 }
 
 type Networking struct {
+	Type           string `yaml:"type" json:"type"`
 	ClusterNetwork string `yaml:"clusterNetwork" json:"clusterNetwork"`
 	HostPrefix     string `yaml:"hostPrefix" json:"hostPrefix"`
 	MachineNetwork string `yaml:"machineNetwork" json:"machineNetwork"`

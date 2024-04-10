@@ -10,10 +10,11 @@ cluster:
   baseDomain: k8s.example.com
   ocpVersion: 4.12.35
   networking:
-    clusterNetwork: 1.1.1.1
-    hostPrefix: 21
-    machineNetwork: 2.2.2.2
-    serviceNetwork: 3.3.3.3
+    type: OVNKubernetes
+    clusterNetwork: 10.128.0.0/14
+    hostPrefix: 23
+    machineNetwork: 10.0.0.0/16
+    serviceNetwork: 172.30.0.0/16
   clusterPowerState: Running
   acmClusterSetName: alphacorp
   acmClusterLabels:
