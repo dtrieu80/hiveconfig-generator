@@ -29,6 +29,6 @@ spec:
     sshPrivateKeySecretRef:
       name: {{ .Metadata.Name }}-ssh-private-key
     imageSetRef:
-      name: img{{ .Cluster.OcpVersion }}-multi-appsub
+      name: img{{ .Cluster.OcpVersionInstalled }}-multi-appsub
   pullSecretRef:
     name: {{ .Metadata.Name }}-pull-secret

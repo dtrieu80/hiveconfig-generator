@@ -5,13 +5,14 @@ type Metadata struct {
 }
 
 type Cluster struct {
-	BaseDomain        string            `yaml:"baseDomain" json:"baseDomain"`
-	OcpVersion        string            `yaml:"ocpVersion" json:"ocpVersion"`
-	Networking        Networking        `yaml:"networking" json:"networking"`
-	ClusterPowerState string            `yaml:"clusterPowerState" json:"clusterPowerState"`
-	AcmClusterSetName string            `yaml:"acmClusterSetName" json:"acmClusterSetName"`
-	AcmClusterLabels  map[string]string `yaml:"acmClusterLabels" json:"acmClusterLabels"`
-	SshPubkey         string            `yaml:"sshPubkey" json:"sshPubkey"`
+	BaseDomain          string            `yaml:"baseDomain" json:"baseDomain"`
+	OcpVersionInstalled string            `yaml:"ocpVersionInstalled" json:"ocpVersionInstalled"`
+	OcpVersionDesired   string            `yaml:"ocpVersionDesired" json:"ocpVersionDesired"`
+	Networking          Networking        `yaml:"networking" json:"networking"`
+	ClusterPowerState   string            `yaml:"clusterPowerState" json:"clusterPowerState"`
+	AcmClusterSetName   string            `yaml:"acmClusterSetName" json:"acmClusterSetName"`
+	AcmClusterLabels    map[string]string `yaml:"acmClusterLabels" json:"acmClusterLabels"`
+	SshPubkey           string            `yaml:"sshPubkey" json:"sshPubkey"`
 }
 
 type Networking struct {

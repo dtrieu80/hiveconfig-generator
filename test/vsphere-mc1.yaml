@@ -5,10 +5,11 @@ metadata:
   annotations:
     config.kubernetes.io/function: |
       container:
-        image: quay.io/dtrieu80/hiveconfig-generator:1.0.0
+        image: quay.io/dtrieu80/hiveconfig-generator:1.1.0
 cluster:
   baseDomain: k8s.example.com
-  ocpVersion: 4.12.35
+  ocpVersionInstalled: 4.12.35
+  ocpVersionDesired: 4.12.37
   networking:
     type: OVNKubernetes
     clusterNetwork: 10.128.0.0/14
