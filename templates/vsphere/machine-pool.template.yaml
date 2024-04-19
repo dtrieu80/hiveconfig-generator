@@ -11,7 +11,11 @@ metadata:
   {{- end }}
   namespace: {{ $clustername }}
   annotations:
+    {{- if eq $addCompute.Id 0 }}
+    argocd.argoproj.io/sync-options: Delete=false
+    {{- else }}
     argocd.argoproj.io/sync-options: Prune=true
+    {{- end }}
 spec:
   clusterDeploymentRef:
     name: {{ $clustername }}
@@ -27,9 +31,5 @@ spec:
       memoryMB: {{ $addCompute.MemoryMB }}
       osDisk:
         diskSizeGB: {{ $addCompute.OsDiskSizeGB }}
-      zones:
-      {{- range $addCompute.Zones }}
-      - '{{ . }}'
-      {{- end }}
   replicas: {{ $addCompute.Replicas }}
 {{- end }}
